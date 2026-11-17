@@ -1,0 +1,17 @@
+{
+    "actorSpecification": 1,
+    "name": "contact-page-finder",
+    "title": "Contact Page Finder: Forms, Socials, Role Emails Only",
+    "description": "For each website: its contact page, whether it has a contact form, its social profiles (LinkedIn, X, Facebook, Instagram, YouTube, TikTok, GitHub) and its role-based addresses such as info@ and sales@. Personal addresses are never returned, by design.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "defaultMemoryMbytes": 512,
+    "minMemoryMbytes": 256,
+    "maxMemoryMbytes": 1024,
+    "dockerfile": "../Dockerfile",
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    }
+}

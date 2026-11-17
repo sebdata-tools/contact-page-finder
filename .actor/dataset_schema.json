@@ -1,0 +1,59 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+            "website": { "type": "string", "description": "The website as given in the input." },
+            "finalUrl": { "type": ["string", "null"], "description": "The homepage address after redirects." },
+            "siteName": { "type": ["string", "null"], "description": "The site's own name (og:site_name), when it states one." },
+            "title": { "type": ["string", "null"], "description": "The homepage title." },
+            "contactPageUrl": { "type": ["string", "null"], "description": "The best contact page found, or null." },
+            "contactPageFound": { "type": "boolean" },
+            "contactPageMethod": { "type": ["string", "null"], "description": "link: linked from the homepage. guess: found at /contact or a similar usual address. homepage: the contact section or form is on the homepage itself. null: none found." },
+            "contactPageKind": { "type": ["string", "null"], "description": "contact: a contact page. support: a support or help page. about: an about page or legal notice, the weakest fallback." },
+            "hasContactForm": { "type": ["boolean", "null"], "description": "A form for writing a message is in the contact page's HTML. null: the contact page was linked but not read. Forms drawn by JavaScript after loading are not seen." },
+            "contactFormType": { "type": ["string", "null"], "description": "html: a form in the page. embed: a form service loaded into the page (HubSpot, Typeform, Jotform, Google Forms, Tally, Paperform...)." },
+            "socialProfiles": {
+                "type": "object",
+                "description": "One cleaned profile address per network, or null. LinkedIn: company, school and showcase pages only, never personal profiles.",
+                "properties": {
+                    "linkedin": { "type": ["string", "null"] },
+                    "twitter": { "type": ["string", "null"], "description": "X (Twitter), as https://x.com/<name>." },
+                    "facebook": { "type": ["string", "null"] },
+                    "instagram": { "type": ["string", "null"] },
+                    "youtube": { "type": ["string", "null"] },
+                    "tiktok": { "type": ["string", "null"] },
+                    "github": { "type": ["string", "null"] }
+                }
+            },
+            "emails": { "type": "array", "items": { "type": "string" }, "description": "Role-based addresses only (info@, sales@, support@...), the site's own domain first. At most 20." },
+            "otherEmailsOmitted": { "type": "integer", "description": "How many other addresses were seen and deliberately not returned, because their name part is not on the list of role names." },
+            "pagesFetched": { "type": "integer", "description": "Pages of this website that were read." },
+            "checkedAt": { "type": "string", "description": "When the website was read, ISO 8601 UTC." }
+        },
+        "required": ["website", "contactPageFound", "socialProfiles", "emails", "otherEmailsOmitted", "pagesFetched", "checkedAt"]
+    },
+    "views": {
+        "overview": {
+            "title": "Websites",
+            "transformation": {
+                "fields": ["website", "contactPageUrl", "contactPageMethod", "hasContactForm", "emails", "otherEmailsOmitted", "socialProfiles", "siteName", "pagesFetched"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "website": { "label": "Website", "format": "text" },
+                    "contactPageUrl": { "label": "Contact page", "format": "link" },
+                    "contactPageMethod": { "label": "Found by", "format": "text" },
+                    "hasContactForm": { "label": "Contact form", "format": "boolean" },
+                    "emails": { "label": "Role addresses", "format": "array" },
+                    "otherEmailsOmitted": { "label": "Other addresses omitted", "format": "number" },
+                    "socialProfiles": { "label": "Social profiles", "format": "object" },
+                    "siteName": { "label": "Site name", "format": "text" },
+                    "pagesFetched": { "label": "Pages read", "format": "number" }
+                }
+            }
+        }
+    }
+}
